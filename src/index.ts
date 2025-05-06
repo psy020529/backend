@@ -6,7 +6,10 @@ import { handleOrderRequest } from './orderHandler';
 const app = express();
 const PORT = 3001;
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://dooringkr.vercel.app/login',
+  credentials: true
+}));
 app.use(express.json());
 
 app.post('/api/order', handleOrderRequest);
