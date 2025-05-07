@@ -9,18 +9,17 @@ datasource db {
 }
 
 model Order {
-  id              Int      @id @default(autoincrement())
-  userId          Int
-  userType        String
-  userPhone       String
-  receiverPhone   String
-  address1        String
-  address2        String
-  deliveryDate    DateTime
-  deliveryRequest String
-  otherRequests   String
-  description     String
-  totalPrice      Int
-  itemCount       Int
-  createdAt       DateTime @default(now())
+  id                 Int      @id @default(autoincrement())
+  userId             Int
+  userType           String
+  userPhone          String
+  recipientPhone     String   // ✅ 변경된 필드명
+  address1           String
+  address2           String
+  deliveryDate       DateTime
+  deliveryRequest    String
+  otherRequests      String
+  totalPrice         Int
+  itemCount          Int
+  createdAt          DateTime @default(now())
 }

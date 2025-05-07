@@ -12,7 +12,7 @@ app.use(cors({
 }));
 app.use(express.json());
 
-app.post('/api/order', handleOrderRequest);
+app.post('/order', handleOrderRequest);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -6,7 +6,7 @@ export const handleOrderRequest = async (req: Request, res: Response): Promise<R
   const order = req.body;
 
   // 1. 주문자 및 수령자 정보 검증
-  if (!order.user || !order.phoneNumber || !order.address1 || !order.deliveryDate) {
+  if (!order.user || !order.recipientPhoneNumber || !order.address1 || !order.deliveryDate) {
     return res.status(400).json({ success: false, message: '필수 정보 누락' });
   }
 
@@ -15,13 +15,11 @@ export const handleOrderRequest = async (req: Request, res: Response): Promise<R
   let itemCount = 0;
 
   for (const item of order.cartItems) {
-    if (item.category === 'door') {
-      if (!item.width || !item.height || !item.price || !item.count) {
-        return res.status(400).json({ success: false, message: '문짝 정보 누락' });
-      }
-      calculatedTotal += item.price * item.count;
-      itemCount += item.count;
+    if (!item.category || !item.price || !item.count) {
+      return res.status(400).json({ success: false, message: '제품 정보 누락' });
     }
+    calculatedTotal += item.price;
+    itemCount += item.count;
   }
 
   // 3. 총 가격 검증
@@ -36,13 +34,12 @@ export const handleOrderRequest = async (req: Request, res: Response): Promise<R
         userId: order.user.id,
         userType: order.user.userType,
         userPhone: order.user.phoneNumber,
-        receiverPhone: order.phoneNumber,
+        recipientPhone: order.recipientPhoneNumber,
         address1: order.address1,
         address2: order.address2,
         deliveryDate: new Date(order.deliveryDate),
         deliveryRequest: order.deliveryRequest,
         otherRequests: order.otherRequests,
-        description: order.description,
         totalPrice: calculatedTotal,
         itemCount: itemCount
       }
